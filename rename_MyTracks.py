@@ -13,10 +13,10 @@ from os import rename
 from os.path import isfile
 
 
-#inputfolder = '/Volumes/Mis Fotos/_MyTracks/gpx_unsorted'
-inputfolder = '/Volumes/Mis Fotos/_MyTracks/kml2gpx/'
-# outputfolder = '/Volumes/Mis Fotos/_MyTracks/gpx_sorted/' 
-outputfolder = '/Volumes/Mis Fotos/_MyTracks/kml2gpx/renamed/'
+inputfolder = '/Volumes/Mis Fotos/_MyTracks/gpx_unsorted'
+# inputfolder = '/Volumes/Mis Fotos/_MyTracks/kml2gpx/'
+outputfolder = '/Volumes/Mis Fotos/_MyTracks/gpx_sorted/' 
+# outputfolder = '/Volumes/Mis Fotos/_MyTracks/kml2gpx/renamed/'
 
 gpxfiles = listFiles( inputfolder , '*.gpx' )
 
