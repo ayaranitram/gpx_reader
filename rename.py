@@ -13,8 +13,7 @@ __all__ = ['rename']
 from gpx_reader.read import gpx
 from gpx_reader.filehandling import listFiles , move , copy
 from datafiletoolbox import extension , strDate , isDate
-from os import rename
-from os.path import isfile, isdir
+from os.path import isfile, isdir, dirname
 
 
 def rename(Input,OutputFolder=None,includeOriginalFileName=True) :
@@ -42,9 +41,14 @@ def rename(Input,OutputFolder=None,includeOriginalFileName=True) :
     else :
         raise TypeError( "'Input' is not a file or a directory.")
     
-    names = []
-    for f in gpxfiles :
-        names = extension(f)[1]
+    if OutputFolder is not None :
+        if isdir(OutputFolder) :
+            outputfolder = OutputFolder
+    else :
+        if isdir(Input) :
+            outputfolder = Input
+        elif isfile(Input) :
+            outputfolder = dirname(Input)
     
     Renamed = ''
     
@@ -59,7 +63,7 @@ def rename(Input,OutputFolder=None,includeOriginalFileName=True) :
             emptyFiles.append( newName )
         
         else :
-            oldName = extension(each_file)[1]
+            oldName = extension(each_file)[1] if includeOriginalFileName else ''
             newName = oldName
             activity = ''
             nameDate = ''
