@@ -6,15 +6,40 @@ Created on Sun Aug 30 12:42:50 2020
 @author: martin
 """
 
+__version__ = '0.0.20-11-01'
+__all__ = ['gpx']
+
 from geopy.geocoders import Nominatim
 import pandas as pd
 from numpy import linspace
-from datafiletoolbox import date as dateStr
+from datafiletoolbox import strDate
 from datafiletoolbox import extension
 
 geolocator = Nominatim(user_agent="MyPhotoTracks")
 
 class gpx(object) :
+    """
+    A class to simplify reading a GPX file.
+    It extracts only the latitude, longitude and time.
+    
+    Available properties and methods() :
+        .load( path_to_gpx_file ) method to load a .gpx file overwritting any previously read gpx
+        
+        .start property returns the first time in the gpx track
+        .end property returns the last time in the gpx track
+        
+        .DF property returns a Pandas DataFrame with latitude, longitude and time
+        
+        .country property returns the country where the track is located
+        .county property returns the county where the track is located
+        .city property returns the city where the track is located
+        NB: if the track pass through more than one city or county, the most common one is returned
+        
+        .counties() method returns all the counties where the track pass by
+        .cities() method returns all the cities where the track pass by
+        
+    """
+    
     def __init__(self,filepath) :
         self.filepath = filepath
         self.string = None
@@ -98,6 +123,8 @@ class gpx(object) :
     
     @property
     def start(self) :
+        if len(self.DF) > 0 :
+            return self.DF.time.iloc[0]
         if len(self.tracks) > 0 :
             for each in self.tracks.keys() :
                 if len( self.tracks[each]['time'] ) > 0 :
@@ -105,16 +132,18 @@ class gpx(object) :
     
     @property
     def end(self) :
+        if len(self.DF) > 0 :
+            return self.DF.time.iloc[-1]
         if len(self.tracks) > 0 :
             for each in list(self.tracks.keys())[::-1] :
                 if len( self.tracks[each]['time'] ) > 0 :
                     return pd.to_datetime( self.tracks[ each ]['time'][-1] , format='%Y-%m-%dT%H:%M:%S' )
 
-    @property
+    @property 
     def date(self) :
         if self.start.date() != self.end.date() :
             print( ' start and end are different:\n   start: ' + str(self.start) + '\n     end: ' + str(self.end) )
-        return dateStr( self.start.date() , formatIN='YYYY-MM-DD' , formatOUT='YYYY-MM-DD' )
+        return strDate( self.start.date() , formatIN='YYYY-MM-DD' , formatOUT='YYYY-MM-DD' )
     
     @property
     def DF(self) :

@@ -7,23 +7,27 @@ Created on Sun Aug 30 14:34:40 2020
 """
 
 from gpx_reader.read import gpx
-from gpx_reader.filehandling import listFiles , move 
-from datafiletoolbox import extension , date
-from datafiletoolbox.common.stringformat import isDate
-from os import rename, isfile
+from gpx_reader.filehandling import listFiles , move , copy
+from datafiletoolbox import extension , strDate , isDate
+from os import rename
+from os.path import isfile
 
-gpxfiles = listFiles( '/Volumes/Mis Fotos/_MyTracks/gpx' , '*.gpx' )
+
+#inputfolder = '/Volumes/Mis Fotos/_MyTracks/gpx_unsorted'
+inputfolder = '/Volumes/Mis Fotos/_MyTracks/kml2gpx/'
+# outputfolder = '/Volumes/Mis Fotos/_MyTracks/gpx_sorted/' 
+outputfolder = '/Volumes/Mis Fotos/_MyTracks/kml2gpx/renamed/'
+
+gpxfiles = listFiles( inputfolder , '*.gpx' )
 
 names = []
 for f in gpxfiles :
     names = extension(f)[1]
 
-loaded = gpx(gpxfiles[78])
-
-testingRename = ''
+Renamed = ''
 
 emptyFiles = []
-for each_file in gpxfiles[:10] + gpxfiles[50:70] + gpxfiles[-10:] :
+for each_file in gpxfiles :
     track = gpx(each_file)
     
     if track.start is None :
@@ -46,7 +50,7 @@ for each_file in gpxfiles[:10] + gpxfiles[50:70] + gpxfiles[-10:] :
                 activity = part
             if nameDate != '' and activity != '' :
                 break
-        if isDate(nameDate) is True and date(nameDate,formatIN=formatStr) == date(track.start) :
+        if isDate(nameDate) is True and strDate(nameDate,formatIN=formatStr) == strDate(track.start) :
             newName = newName.replace(nameDate , '')
         if activity != '' :
             newName = newName.replace(activity , '')
@@ -55,7 +59,7 @@ for each_file in gpxfiles[:10] + gpxfiles[50:70] + gpxfiles[-10:] :
         if track.city is not None and track.city in newName :
             newName = newName.replace(track.city , '')
         newName = newName.strip(' -')
-        prefix = date( track.date , formatIN='YYYY-MM-DD',formatOUT='YYYY-MMMMM-DD' ,speak=False ) 
+        prefix = strDate( track.date , formatIN='YYYY-MM-DD',formatOUT='YYYY-MMMMM-DD' ,speak=False ) 
         if track.country is not None :
             prefix += ' _ ' + track.country
         if track.city is not None :
@@ -69,9 +73,14 @@ for each_file in gpxfiles[:10] + gpxfiles[50:70] + gpxfiles[-10:] :
         if activity != '' :
             newName += ' _ ' + activity
 
-        if newName in names :
+        newPath = outputfolder + newName + '.gpx'
+        nf = 0
+        while isfile( newPath ) :
+            nf += 1
+            newPath = outputfolder + newName + '_' + str(nf) + '.gpx'
+        check = copy(each_file,newPath,True)
             
-        print('\nold: ' + oldName + '\nnew: ' + newName )
-        testingRename += '\nold: ' + oldName + '\nnew: ' + newName 
+        print('\nold: ' + oldName + '.gpx\nnew: ' + newName + '.gpx\nMD5: ' + check)
+        Renamed += '\nold: ' + oldName + '.gpx\nnew: ' + newName + '.gpx\nMD5: ' + check
 
 
