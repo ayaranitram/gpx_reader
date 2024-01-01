@@ -21,15 +21,14 @@ def rename(input_files, output_folder=None, include_original_file_name=True, ver
     Rename the 'input_files' gpx file(s) according to its date, country and city,
     following the format : YYYY-##MMM-DD _ Country _ City _ original_file_name.gpx
         example:
-            Input name : ugly-filename.gpx
+            input name : ugly-filename.gpx
             renamed to : 2015-05MAY-10 _ Italy _ Rome _ ugly-filename.gpx
-                    
-    
+
     Input parameter can be a folder or a gpx file. If is a folder, all the gpx
     files in that folder will be processed.
-    
+
     If OutputFolder is not provided, the same Input folder will be assumed.
-    
+
     To not include the original name in the renamed file set the third parameter to False.
     """
     if type(input_files) is list:

@@ -5,7 +5,7 @@ Created on Sun Jun 14 20:39:44 2020
 @author: Martin Carlos Araya
 """
 
-__version__ = '0.5.20-06-05'
+__version__ = '0.0.0'
 
 import time
 

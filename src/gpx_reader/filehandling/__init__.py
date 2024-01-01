@@ -5,7 +5,7 @@ Created on Wed May 13 12:24:06 2020
 @author: Martin Carlos Araya
 """
 
-__version__ = '0.0.20-05-28'
+__version__ = '0.0.0'
 
 from .operations import rename
 from .operations import copy

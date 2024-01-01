@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gpx_reader"
-version = "0.2.0"
+version = "0.3.0"
 authors = [
   { name="Martin Carlos Araya", email="martinaraya@gmail.com" },
 ]
@@ -22,10 +22,10 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    geopy
-    pandas
-    numpy
-    stringthings
+    'geopy',
+    'pandas',
+    'numpy',
+    'stringthings',
     ]
 [project.urls]
 "Homepage" = "https://github.com/ayaranitram/gpx_reader"

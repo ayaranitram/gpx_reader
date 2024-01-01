@@ -5,7 +5,7 @@ Created on Wed May 13 11:49:22 2020
 @author: Martin Carlos Araya
 """
 
-__version__ = '0.5.20-05-13'
+__version__ = '0.5.0'
 
 import hashlib
 

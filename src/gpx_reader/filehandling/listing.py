@@ -5,7 +5,7 @@ Created on Thu May 28 11:38:00 2020
 @author: Martin Carlos Araya
 """
 
-__version__ = '0.5.20-06-05'
+__version__ = '0.5.0'
 
 import fnmatch
 import os

@@ -5,52 +5,51 @@ Created on Wed May 13 12:25:22 2020
 @author: Martin Carlos Araya
 """
 
-__version__ = '0.5.20-06-05'
+__version__ = '0.5.0'
 
 import os
 from shutil import copyfile
-from datafiletoolbox import extension
-from gpx_reader.calculate import MD5
+from stringthings import extension
+from gpx_reader.calculate import md5
 
-def rename(fullPath,newName) :
+
+def rename(full_path, new_name):
     """
     renames the file on the fullPath to the newName, 
-    in the same orginal directory
+    in the same original directory
 
     Parameters
     ----------
-    fullPath : a string 
+    full_path : a string
         the fullpath to the file or folder to be renamed.
-    newPathOrName : a string
+    new_name : a string
         the new name of the file or folder.
 
     Returns
     -------
-    True if succesfuly renamed
+    True if successfully renamed
     False if failed
 
     """
-    if os.path.exists(extension(fullPath)[3]) :
-        fullPath = extension(fullPath)[3]
-    else :
-        raise FileNotFoundError(fullPath)
-    newName = extension(newName)[3]
-    if not os.path.isabs(newName) :
-        if extension(newName)[2] == '' :
-            newName = extension(fullPath)[2] + extension(newName)[1] + extension(newName)[0]
-        else :
+    if os.path.exists(extension(full_path)[3]):
+        full_path = extension(full_path)[3]
+    else:
+        raise FileNotFoundError(full_path)
+    new_name = extension(new_name)[3]
+    if not os.path.isabs(new_name):
+        if extension(new_name)[2] == '':
+            new_name = extension(full_path)[2] + extension(new_name)[1] + extension(new_name)[0]
+        else:
             raise TypeError(' newName must be a full path or simply a filename.extension')
-    
-    try :
-        os.rename(fullPath,newName)
+    try:
+        os.rename(full_path, new_name)
         return True
-    except :
+    except:
         return False
 
-def copy(source,destination,MD5_check=True) :
-    """
-    
 
+def copy(source, destination, md5_check=True):
+    """
     Parameters
     ----------
     source : a string 
@@ -58,91 +57,90 @@ def copy(source,destination,MD5_check=True) :
     destination : a string 
         the fullpath of the destination,
         if destination is a directory the same filename will be used.
-    MD5_check : True or false
+    md5_check : True or false
         True will check the MD5 of the copied file matches the MD5 of the source file.
         False will not check MD5.
 
     Returns
     -------
-    True if succesfuly copied
-         if MD5_check=True then the MD5 will be returned of succesfull copy
+    True if successfully copied
+         if MD5_check=True then the MD5 will be returned of successful copy
     False if failed
 
     """
-    prepareFolder( extension(destination)[2] )
-    
+    prepare_folder(extension(destination)[2])
+
     ### attempt to copy the file and calculate checksum
-    if MD5_check :
-        
-        MD5_flag = False
+    if md5_check:
+        md5_flag = False
         attempt = 0
-        # maximum three attemps 
-        while attempt < 3 and MD5_flag == False :
-            Failure = 'COPY'
-            try : # try to copy and calculate checksum
+        # maximum three attempts
+        while attempt < 3 and md5_flag == False:
+            failure = 'COPY'
+            try:  # try to copy and calculate checksum
                 # try to copy, message will contain the destination path 
-                if Failure == 'COPY' :
+                if failure == 'COPY':
                     message = copyfile(source, destination)
                 # calculate MD5 for the original file
-                try :
-                    MD5_str = MD5(source)
-                    # calculate MD5 for the copied file and compare to the original's one
-                    if MD5_str == MD5(destination) : # if OK, write to log and exit loop
-                        MD5_flag = True
-                        Failure = ''
-                    else :  # if MD5s does not match, count +1 and try again
+                try:
+                    md5_str = md5(source)
+                    # calculate md5 for the copied file and compare to the original's one
+                    if md5_str == md5(destination):  # if OK, write to log and exit loop
+                        md5_flag = True
+                        failure = ''
+                    else:  # if MD5s does not match, count +1 and try again
                         attempt += 1
-                        MD5_flag = False
-                        MD5_str = ''
-                        Failure = 'COPY'
-                except :
-                    Failure = 'MD5'
-            except : # if try fails (mostly I/O issues during the copy or reading for the MD5)
-                if Failure == 'COPY' :
+                        md5_flag = False
+                        md5_str = ''
+                        failure = 'COPY'
+                except:
+                    failure = 'MD5'
+            except:  # if try fails (mostly I/O issues during the copy or reading for the MD5)
+                if failure == 'COPY':
                     attempt += 1
-                elif Failure == 'MD5' :
+                elif failure == 'MD5':
                     attempt += 1
-                else :
+                else:
                     pass
-        if MD5_flag :
-            return MD5_str
-        else :
+        if md5_flag:
+            return md5_str
+        else:
             return False
-                
-    else : # not MD5_check 
-    
+
+    else:  # not MD5_check
         copy_flag = False
         attempt = 0
-        # maximum three attemps 
-        while attempt < 3 and copy_flag == False :
-            Failure = 'COPY'
-            try : # try to copy 
+        # maximum three attempts
+        while attempt < 3 and copy_flag == False:
+            failure = 'COPY'
+            try:  # try to copy
                 # try to copy, message will contain the destination path 
-                if Failure == 'COPY' :
+                if failure == 'COPY':
                     message = copyfile(source, destination)
                     copy_flag = True
-                    Failure = ''
-            except : # if try fails (mostly I/O issues during the copy or reading for the MD5)
-                if Failure == 'COPY' :
+                    failure = ''
+            except:  # if try fails (mostly I/O issues during the copy or reading for the MD5)
+                if failure == 'COPY':
                     attempt += 1
-                else :
+                else:
                     pass
-        
-        return copy_flag
-        
 
-def delete(fullpath) :
+        return copy_flag
+
+
+def delete(fullpath):
     """
     removes the file indicated by fullpath
-    returns True if succesful
+    returns True if successful
     """
-    try :
+    try:
         os.remove(fullpath)
         return True
     except:
         return False
 
-def move(source,destination,MD5_check=True) :
+
+def move(source, destination, md5_check=True):
     """
     copy 
     if True
@@ -160,34 +158,41 @@ def move(source,destination,MD5_check=True) :
     -------
     a tuple where:
         item 0 is the result of the copy operation:
-            True or the MD5 if succesful
-            False if failes
+            True or the MD5 if successful
+            False if failed
         item 1 is the result of the delete operation:
-            True if sucessful
+            True if successful
             False if not
             None if the copy failed
     """
-    cp = copy(source,destination,MD5_check)
-    if type(cp) is str or cp is True :
+    cp = copy(source, destination, md5_check)
+    if type(cp) is str or cp is True:
         dl = delete(source)
-        print('MOVE',cp,dl)
-        return (cp,dl)
-    else :
-        print('MOVE',cp,dl)
-        return (cp,None)
-    
-def prepareFolder(folderPath) :
-    ### Create target Directory if don't exist
-    # check if that folder already exists
-    if not os.path.exists(folderPath): # does not exist
-        # level by level check that folders exists
-        for i in range(5, len(folderPath.split('/'))) : # starts from the 5th position on the full path because the first five items must exist: '//danas/Dig_Trans_Proj/DATALAKE_EP_PRE_INGESTION/'
-            checkPath = '/'.join( folderPath.split('/')[:i] )
-            if not os.path.exists( checkPath ) :
-                os.mkdir(checkPath)
-        print("Directory " , folderPath ,  " Created ")
-        dirMsg = "Directory '" + folderPath + "' Created "
-    else: # already exists    
-        print("Directory " , folderPath ,  " already exists")
-        dirMsg = "Directory '" + folderPath + " already exists"
+    else:
+        dl = False
+    print('MOVE', cp, dl)
+    return cp, dl
 
+
+__already_reported_directories__ = []
+
+
+def prepare_folder(folder_path):
+    """
+    Create target Directory if it doesn't exist
+    """
+    # check if that folder already exists
+    if not os.path.exists(folder_path):  # does not exist
+        # level by level check that folders exists
+        for i in range(5, len(folder_path.split(
+                '/'))):  # starts from the 5th position on the full path because the first five items must exist: '//danas/Dig_Trans_Proj/DATALAKE_EP_PRE_INGESTION/'
+            check_path = '/'.join(folder_path.split('/')[:i])
+            if not os.path.exists(check_path):
+                os.mkdir(check_path)
+        print("Directory ", folder_path, " Created.")
+        dir_msg = "Directory '" + folder_path + "' Created."
+    else:  # already exists
+        if folder_path not in __already_reported_directories__:
+            print("Directory ", folder_path, " already exists.")
+            __already_reported_directories__.append(folder_path)
+        dir_msg = "Directory '" + folder_path + " already exists."
