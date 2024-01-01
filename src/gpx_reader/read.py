@@ -6,7 +6,7 @@ Created on Sun Aug 30 12:42:50 2020
 @author: Martin Carlos Araya
 """
 
-__version__ = '0.0.20-11-01'
+__version__ = '0.2.0'
 __all__ = ['GPX']
 
 from geopy.geocoders import Nominatim
@@ -37,17 +37,16 @@ class GPX(object):
         
         .counties() method returns all the counties where the track pass by
         .cities() method returns all the cities where the track pass by
-        
     """
 
-    def __init__(self, filepath):
+    def __init__(self, filepath, encoding='cp437'):
         self.name = None
         self.filepath = filepath
         self.string = None
         self.version = None
         self.metadata = []
         self.tracks = {}
-        self.load(self.filepath)
+        self.load(self.filepath, encoding=encoding)
         self.location = {}
 
     def __len__(self):
@@ -56,8 +55,8 @@ class GPX(object):
                 for track_count in self.tracks
                 }
 
-    def load(self, filepath):
-        with open(self.filepath, 'r') as f:
+    def load(self, filepath, encoding='cp437'):
+        with open(self.filepath, 'r', encoding=encoding) as f:
             self.string = f.readlines()
 
         self.name = extension(filepath)[1]
