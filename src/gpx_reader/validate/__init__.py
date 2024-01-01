@@ -7,5 +7,5 @@ Created on Wed May 13 10:59:50 2020
 
 __version__ = '0.0.20.05.13'
 
-from .strings import characters , isDate
+from .strings import valid_characters , isDate
 

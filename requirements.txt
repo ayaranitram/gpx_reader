@@ -1,0 +1,4 @@
+stringthings
+geopy
+pandas
+numpy

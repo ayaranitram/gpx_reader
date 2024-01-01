@@ -2,7 +2,7 @@
 """
 Created on Sun Jun 14 20:39:44 2020
 
-@author: MCARAYA
+@author: Martin Carlos Araya
 """
 
 __version__ = '0.5.20-06-05'

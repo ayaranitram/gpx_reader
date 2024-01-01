@@ -2,7 +2,7 @@
 """
 Created on Wed May 13 11:50:47 2020
 
-@author: MCARAYA
+@author: Martin Carlos Araya
 """
 
-from .MD5_HEX import MD5
+from .md5_hex import md5

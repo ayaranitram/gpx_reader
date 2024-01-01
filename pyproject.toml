@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gpx_reader"
+version = "0.2.0"
+authors = [
+  { name="Martin Carlos Araya", email="martinaraya@gmail.com" },
+]
+description = "A tool to read GPX files and rename the files according to the location and time of the track."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    geopy
+    pandas
+    numpy
+    stringthings
+    ]
+[project.urls]
+"Homepage" = "https://github.com/ayaranitram/gpx_reader"
+"Bug Tracker" = "https://github.com/ayaranitram/gpx_reader/issues"

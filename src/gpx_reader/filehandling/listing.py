@@ -2,7 +2,7 @@
 """
 Created on Thu May 28 11:38:00 2020
 
-@author: MCARAYA
+@author: Martin Carlos Araya
 """
 
 __version__ = '0.5.20-06-05'
@@ -10,7 +10,7 @@ __version__ = '0.5.20-06-05'
 import fnmatch
 import os
 
-def listFiles(directory,pattern=None) :
+def list_files(directory, pattern=None) :
     """
     Receives a directory path, as string.
     Return a list of files in the directory and subdirectories
@@ -29,7 +29,7 @@ def listFiles(directory,pattern=None) :
     list_of_files = []
     for (dirpath, dirnames, filenames) in os.walk(directory):
         for filename in filenames:
-            list_of_files += [ os.sep.join([dirpath, filename]) ]
+            list_of_files += [os.sep.join([dirpath, filename])]
     if pattern is None :
         return list_of_files
     elif type(pattern) is str :
